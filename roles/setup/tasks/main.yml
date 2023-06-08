@@ -22,4 +22,16 @@
     dest: "/etc/hostname"
   register: hostname_changed
 
+- name: Setup Hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '^127＼.0＼.1＼.1'
+    line: "127.0.1.1 {{ domain }} {{ domain_name }}"
+    when: hosts_is_registered.rc != 0
+
+- name: Reboot Server
+  reboot:
+  become: true
+  when: hostname_changed.changed or hosts_is_registered.rc != 0
+
 

@@ -1,2 +1,4 @@
 user: nioin
 hostname: web-server
+domain: test.me
+domain_name: test
