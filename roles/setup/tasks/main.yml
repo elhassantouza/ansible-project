@@ -22,6 +22,11 @@
     dest: "/etc/hostname"
   register: hostname_changed
 
+- name: Check domain is set in etc/hosts
+  shell: grep -q "{{ domain }}" /etc/hosts
+  register: hosts_is_registered
+  ignore_errors: true
+
 - name: Setup Hosts
   lineinfile:
     dest: /etc/hosts
