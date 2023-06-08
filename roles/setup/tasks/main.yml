@@ -10,3 +10,16 @@
     user: "{{ user }}"
     key: "{{ lookup ('file', '~/.ssh/id_rsa.pub') }}"
     state: present
+
+- name: Update & Upgrade System Dependencies
+  apt:
+    upgrade: dist
+    update_cache: yes
+
+- name: Change Hostname
+  template:
+    src: hostname.j2
+    dest: "/etc/hostname"
+  register: hostname_changed
+
+
