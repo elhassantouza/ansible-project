@@ -1,2 +1,12 @@
 ---
-# tasks file for ./roles/setup
+- name: "Create User"
+  user:
+    name: "{{ user }}"
+    shell: /bin/bash
+- ansible.builtin.user:
+    user: "{{ user }}"
+    group: "{{ user }}"
+- authorized_key:
+    user: "{{ user }}"
+    key: "{{ lookup ('file', '~/.ssh/id_rsa.pub') }}"
+    state: present
