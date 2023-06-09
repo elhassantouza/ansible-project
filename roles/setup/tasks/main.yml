@@ -22,7 +22,7 @@
     dest: "/etc/hostname"
   register: hostname_changed
 
-- name: Check domain is set in etc/hosts
+- name: Check domain is set in /etc/hosts
   shell: grep -q "{{ domain }}" /etc/hosts
   register: hosts_is_registered
   ignore_errors: true
@@ -32,11 +32,10 @@
     dest: /etc/hosts
     regexp: '^127＼.0＼.1＼.1'
     line: "127.0.1.1 {{ domain }} {{ domain_name }}"
-    when: hosts_is_registered.rc != 0
 
 - name: Reboot Server
   reboot:
   become: true
-  when: hostname_changed.changed or hosts_is_registered.rc != 0
+  when: hostname_changed.changed
 
 
