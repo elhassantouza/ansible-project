@@ -1,0 +1,38 @@
+---
+- name: Update & Upgrade System Dependencies
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Install Required Packages
+  apt:
+    name:
+      - php8.1
+      - php8.1-cli
+      - php8.1-mbstring
+      - php8.1-xml
+      - php8.1-zip
+      - php8.1-fpm
+      - php8.1-mysql
+      - unzip
+      - composer
+    state: present
+
+- name: Install nodejs and npm
+  apt:
+    pkg:
+      - nodejs
+      - npm
+
+- name: Check If Laravel Project Exists
+  stat:
+    path: /root/laravel
+  register: laravel_project
+
+- name: Cloning Laravel Project From GitHub Repository
+  git:
+    repo: git@github.com:elhassantouza/laravel.git
+    dest: /root/laravel
+    version: main
+    force: yes
+  when: not laravel_project.stat.exists

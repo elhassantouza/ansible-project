@@ -1,0 +1,10 @@
+---
+- name: Build Laravel Application
+  hosts: build-server
+  remote_user: root
+  become: true
+  tasks:
+    - include_vars:
+        file: ../vars.yml
+    - include_role:
+        name: ./roles/build-server
