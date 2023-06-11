@@ -1,9 +1,0 @@
----
-- name: Installing Packages
-  apt:
-    name:
-      - git
-      - pwgen
-      - acl
-      - mailutils
-    state: present

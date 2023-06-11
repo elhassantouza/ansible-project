@@ -1,0 +1,44 @@
+---
+- name: Update & Upgrade System Dependencies
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Install MySQL Server
+  apt:
+    name: mysql-server
+    state: present
+
+- name: Start MySQL Service
+  service:
+    name: mysql
+    state: started
+
+- name: Install pip3
+  become: true
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Install MySQL client dependencies
+  apt:
+    name: libmysqlclient-dev
+    state: present
+
+- name: Install MySQL Python module
+  pip:
+    name: mysqlclient
+    state: present
+    executable: pip3
+
+- name: Create Database
+  mysql_db:
+    name: laravel_database
+    state: present
+
+- name: Create Database User
+  mysql_user:
+    name: laravel_user
+    password: laravel_password
+    priv: 'laravel_database.*:ALL'
+    state: present
